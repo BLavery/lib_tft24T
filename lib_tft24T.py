@@ -49,7 +49,7 @@ Buffer = None
 # This method obviously precludes multiple instances of TFT running independently!
 
 class TFT24():
-    """Representation of an ILI9341 TFT LCD."""
+
 
     def __init__(self, dc, spi, ce, gpio, rst=None, led=None, landscape=False, spi_speed=None):
         global Buffer
@@ -82,11 +82,7 @@ class TFT24():
         self.buffer2 = Buffer.copy()
 
     def send(self, data, is_data=True, chunk_size=4096):
-        """Write a byte or array of bytes to the display. Is_data parameter
-        controls if byte should be interpreted as display data (True) or command
-        data (False).  Chunk_size is an optional size of bytes to write in a
-        single SPI transaction, with a default of 4096.
-        """
+
         # Set DC low for command, high for data.
         self._gpio.output(self._dc, is_data)
         # Convert scalar argument to list so either can be passed as parameter.
@@ -106,7 +102,6 @@ class TFT24():
         self.send(data, True)
 
     def reset(self):
-        """Reset the display, if reset pin is connected."""
         if self._rst is not None:
             self._gpio.output(self._rst, self._gpio.HIGH)
             time.sleep(0.005)
@@ -152,12 +147,7 @@ class TFT24():
         self._init()
 
     def set_frame(self, x0=0, y0=0, x1=None, y1=None):
-        """Set the pixel address window for proceeding drawing commands. x0 and
-        x1 should define the minimum and maximum x pixel bounds.  y0 and y1
-        should define the minimum and maximum y pixel bound.  If no parameters
-        are specified the default will be to update the entire display from 0,0
-        to 239,319.
-        """
+
         # IN THIS LIBRARY, ONLY FULL SCREEN IS ADDRESSED !
 
         if x1 is None:
@@ -203,7 +193,7 @@ class TFT24():
         self.display()
 
     def draw(self):
-        """Return a PIL ImageDraw instance for 2D drawing on the image buffer."""
+        """Return a PIL ImageDraw instance for drawing on the image buffer."""
         d = ImageDraw.Draw(Buffer)
         # Add custom methods to the draw object:
         d.textrotated = MethodType(_textrotated, d, ImageDraw.Draw)
