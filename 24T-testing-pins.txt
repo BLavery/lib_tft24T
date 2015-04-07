@@ -1,0 +1,20 @@
+TFT24-TOUCH - RASPBERRY PI
+BCM pin numbers
+
+LCD           RPI
+
++5            +5
+GND           GND
+CE            CE0
+RESET         #18
+D/C           #22
+SDO/MOSI      MOSI
+SCK           SCLK
+LED           #23
+SDI/MISO      n/c
+
+t_CLK         SCLK
+t_CS          CE1
+t_DIN/MOSI    MOSI
+t_DO/MISO     MISO
+t_IRQ         #24

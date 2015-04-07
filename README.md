@@ -1,11 +1,9 @@
 # lib_tft24T
 2.4 inch 320x240 SPI LCD with Touchscreen - a Python Driver
 
-This module is currently popular on eBay. The marking says TJCTM24024-SPI. This is a ILI9341 driven LCD display, with XPT2046 chip for touch device, and it also includes a SD card holder. All of which would want three SPI channels!
+This module is currently popular on eBay. The marking says TJCTM24024-SPI. This is a ILI9341 driven LCD display, with XPT2046 chip for touch device, and it also includes a SD card holder. All sections are SPI.
 
 My interest is for straightforward python library module(s) for LCD and Touch. The SD card I will ignore. My application is for Raspberry Pi, and for Virtual-GPIO after I check that out.
-
-The module uploaded is working but provisional and a bit rough, and for the LCD only. I have it working quite well. I haven't started on the touchscreen part yet. I am sure there will be changes when the LCD task starts interacting with the Touch task.
 
 My LCD driver is NOT a framebuffer method. (320x240 is too tiny to format any normal desktop display onto.) Also it is NOT an instant direct write-to-LCD method. It instead uses the Python Image Library (PIL) to prepare all display content on a “canvas” or buffer. It gets a transfer of the total buffer to screen hardware when ready. This give some transfer delay, as 0.25MB gets transferred by SPI each screen update! So it's not invisibly “snappy”, but I find it quite acceptable for my requirement. The advantage of using PIL is that a well-tried and versatile graphics and text/font library is all usable directly. The disadvantage is that PIL is discontinued, I believe, and is not there for python3, only python 2.x. Its successor PILLOW seems still to be “coming” for Raspberry Pi. (Any correction to this??)
 
@@ -24,12 +22,29 @@ You need:
 
 For the LCD you need to connect this logic:
 -  MOSI
--  SCK
+-  SCLK
 -  CS – I used CE0
 -  D/C – to any GPIO pin – I used #22
 -  RESET – to any GPIO pin (option: just tie it to 3.3) – I used #18
 -  LED – to any GPIO pin (option: just tie it to 3.3) – I used #23
 -  MISO – not used
+
+For TOUCHSCREEN you need:
+-  SCLK (again)
+-  CE1
+-  MOSI (again)
+-  MISO
+-  PEN-IRQ - to a GPIO pin - I used #24
+
+Included are
+-  a demo of using canvas mode to draw text & graphics to display
+-  a calibration utility to find the correct scaling and offset factors matching touch device and screen pixels
+-  a "penprint trail" demo of touch screen
+-  a "GUI" calculator on the display, using stylus to operate.
+
+Note that a finger does work on the touch device, but a stylus/pen works heaps better.
+
+
 
 Brian
 April 2015
